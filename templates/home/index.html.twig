@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+        <style>
+            .fond
+            {
+                background-image : url("{{asset('assets/img/bg2.jpg')}}");
+            }
+        
+        </style>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+
+{{ include ('_partials/_header.html.twig')}}
+
+  <div  class="bg-cover bg-center  fond h-screen w-screen">
+
+                    <div class=" flex  flex-col justify-center items-center h-50/100 py-6 gap-8">
+                            <h1 class="mt-20 text-center text-3xl font-bold text-white "> Luxury Services </h1>
+                               <button class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md">Voir les offres d'emploi</button>
+                           
+                    </div>
+
+<div class="flex flex-row justify-around items-center ">
+            <div class="mt-5 flex flex-col gap-3">
+                            <span class="text-white ">Que vou soyer un Employeur ou un candidat a la recherche d'un emploi</span>
+                            <h3 class="text-white font-bold text-3xl uppercase " >NOUS AVONS LA SOLUTION QU'IL VOUS FAUT</h3>
+            </div>
+            <div>
+                            <button  class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md">Contactez nous</button>
+            </div>
+</div>
+    </div>    
+                    <hr class="w-80/100 border border-gray-300 m-auto">
+
+                <div class="text-white mt-15 flex flex-col justify-center items-center gap-6">
+                            <h2 class="text-3xl font-bold text-[#b6a575]" > QUI SOMME-NOUS</h2>
+                          <p class="px-35">Luxury Services est un cabinet de recrutement professionnel de premier plan, 
+                          spécialisé dans le recrutement de personnel permanent, contractuel et temporaire pour le compte des plus grands employeurs du monde.</p>
+                </div>
+
+<div class="flex flex-col md:flex-row justify-center items-center max-w-6xl mx-auto px-4 gap-12 mt-12">
+    
+    <div class="relative w-full md:w-2/5 overflow-hidden group rounded-lg shadow-lg">
+        <div id="slider" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none h-[250px]">
+            <div class="w-full flex-shrink-0 snap-center">
+                <img src="{{ asset('assets/img/slide1.jpg') }}" alt="Slide 1" class="w-full h-full object-cover">
+            </div>
+            <div class="w-full flex-shrink-0 snap-center">
+                <img src="{{ asset('assets/img/slide2.jpg') }}" alt="Slide 2" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <button onclick="scrollSlider(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="scrollSlider(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+    </div>
+
+    <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left space-y-4">
+        <h2 class="text-white text-3xl font-serif font-semibold tracking-wide uppercase">
+            Notre philosophie
+        </h2>
+        
+        <p class="text-slate-300 text-base leading-relaxed max-w-xl">
+            Notre rôle est de collaborer avec les employeurs et les candidats afin de
+            faciliter une adéquation réussie. Cela peut aller du conseil 
+            à une entreprise internationale sur sa stratégie de recrutement 
+            à l'accompagnement d'un candidat dans sa recherche d'emploi idéal.
+        </p>
+
+        <button class="mt-2 inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wider text-white uppercase bg-gradient-to-r from-indigo-500 to-purple-600 rounded-md shadow hover:opacity-90 transition-all duration-200 focus:outline-none">
+            En savoir plus sur nous
+        </button>
+    </div>
+
+</div>
+
+        <div class="w-[50%] m-auto">
+                    <h2 class="text-3xl font-bold text-[#b6a575] text-center py-6">Inscrivez-Vous et Postulez dès maintenant </h2>
+
+                    <p class="text-slate-300 text-base leading-relaxed max-w-xl px-3 ">Chacune de vos compétences est pour nous une ressource précieuse, 
+                    et chacune de vos qualités personnelles représente un atout. En nous rejoignant, vous bénéficiez de notre expertise en recrutement
+                     et d'un accompagnement personnalisé pour révéler votre plein potentiel et vous proposer le poste le plus adapté.</p>
+
+                     <button style="transform:translateX(110%);" class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md m-auto mt-5 mb-5">REJOIGNEZ-NOUS</button>
+
+        </div>
+
+
+{{ include ('_partials/_footer.html.twig')}}
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+
+<script>
+    function scrollSlider(direction) {
+        const slider = document.getElementById('slider');
+        // Défilement de la largeur exacte d'une image
+        slider.scrollLeft += direction * slider.offsetWidth;
+    }
+</script>
+
+{% endblock %}
