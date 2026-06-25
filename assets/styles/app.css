@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 body {
+    /* background-color: rgb(16, 30, 36); */
     background-color: rgb(80, 154, 184);
     
 }

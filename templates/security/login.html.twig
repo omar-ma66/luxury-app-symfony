@@ -3,36 +3,116 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
-            </div>
-        {% endif %}
+{{ include ('_partials/_header.html.twig')}}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
 
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
-            </div>
-        #}
+{# Bloc d'erreur de connexion #}
+{% if error %}
+    <div class="flex items-center p-4 mb-6 text-sm text-red-800 border-l-4 border-red-500 bg-red-50 rounded-r-lg shadow-sm" role="alert">
+        <svg class="flex-shrink-0 inline w-4 h-4 mr-3 text-red-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+        </svg>
+        <div class="font-medium">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    </div>
+{% endif %}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+{# Bloc Utilisateur déjà connecté #}
+{% if app.user %}
+    <div class="flex flex-col sm:flex-row items-center justify-between p-4 mb-6 text-sm text-blue-800 bg-blue-50 rounded-lg border border-blue-100 shadow-sm gap-3">
+        <div class="flex items-center">
+            <svg class="flex-shrink-0 inline w-4 h-4 mr-2 text-blue-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+            </svg>
+            <span>
+                You are logged in as <strong class="font-semibold text-blue-900">{{ app.user.userIdentifier }}</strong>
+            </span>
+        </div>
+        <a href="{{ logout_path() }}" class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded transition duration-150 text-xs shadow-sm w-full sm:w-auto">
+            <span>Logout</span>
+            <svg class="w-3 h-3 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+        </a>
+    </div>
+{% endif %}
+
+
+
+
+
+
+
+<div class="container mx-auto px-4 py-12 mt-10">
+    <div class="flex justify-center">
+        <div class="w-full sm:w-10/12 md:w-5/12 bg-white rounded-lg border border-gray-200 shadow-lg p-6 sm:p-8">
+            
+            <h1 class="text-2xl font-black text-gray-900 mb-8 text-center">Please sign in</h1>
+            
+            {% if error %}
+                <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded text-sm" role="alert">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <form method="post" action="{{ path('app_login') }}" class="space-y-6">
+                
+                {# Champ Email #}
+                <div class="flex flex-col-reverse relative">
+                    <input type="email" 
+                           value="{{ last_username }}" 
+                           name="_username" 
+                           id="username" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border text-gray-800" 
+                           autocomplete="email" 
+                           required 
+                           autofocus>
+                    <label for="username" class="text-sm font-semibold text-gray-600">Email</label>
+                </div>
+
+                {# Champ Mot de passe #}
+                <div class="flex flex-col-reverse relative">
+                    <input type="password" 
+                           name="_password" 
+                           id="password" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border text-gray-800" 
+                           autocomplete="current-password" 
+                           required>
+                    <label for="password" class="text-sm font-semibold text-gray-600">Password</label>
+                </div>
+
+                {# Jeton CSRF de sécurité #}
+                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+                {# Options : Se souvenir de moi / Mot de passe oublié #}
+                <div class="flex items-center justify-between pt-2">
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="remember_me" name="_remember_me" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer">
+                        <label for="remember_me" class="text-sm text-gray-600 cursor-pointer select-none">Remember me</label>
+                    </div>
+                    <a href="#!" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
+                </div>
+
+                {# Bouton de connexion #}
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded shadow-md transition duration-200 text-sm uppercase tracking-wide mt-4">
+                    Sign in
+                </button>
+
+                {# Lien vers l'inscription #}
+                <div class="text-center pt-4 border-t border-gray-100 mt-6">
+                    <a href="{{ path('app_register') }}" class="text-sm text-blue-600 hover:underline transition">
+                        Don't have an account? Register here
+                    </a>
+                </div>
+
+            </form>
+            
+        </div>
+    </div>
+</div>
+{{ include ('_partials/_footer.html.twig')}}
+
 {% endblock %}

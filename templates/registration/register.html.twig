@@ -6,9 +6,9 @@
         {{ parent() }}
 
         <style>
-     body {
-            background-image: url('{{ asset("assets/imag/bg2.jpg") }}') !important;
-            background-size: cover;
+     #bgi{
+            background-image: url('{{ asset("assets/img/bg3.jpg") }}') !important;
+            background-size:cover;
             background-position: center;
             background-attachment: fixed;
         }
@@ -38,7 +38,8 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }} #}
-
+<div id="bgi" class="w-full h-80" >
+</div>
 <div class="container mx-auto px-4 py-12 mt-10">
     <div class="flex justify-center">
         <div class="w-full sm:w-10/12 md:w-6/12 bg-white rounded-lg border border-gray-200 shadow-lg p-6 sm:p-8">
@@ -69,7 +70,7 @@
                             'required': 'required',
                             'data-parsley-trigger': 'change',
                             'data-parsley-minlength': '6',
-                            'data-parsley-error-message': 'The password must be at least 6 characters.'
+                            'data-parsley-error-message': 'plus de 6 caractères pour votre mot de pass'
                         }
                     }) }}
                     {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'text-sm font-semibold text-gray-600'}}) }}
