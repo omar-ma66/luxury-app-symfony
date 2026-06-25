@@ -1,0 +1,235 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+
+
+
+
+{{ include ('_partials/_header.html.twig') }}
+                 
+
+
+
+<div class="w-full min-h-screen bg-gray-50 text-gray-800">
+
+    <div class="w-full">
+
+        <section style="background-image:url('{{asset("assets/img/bg3.jpg")}}')" class="relative bg-gray-900 bg-cover bg-center bg-fixed pt-40 pb-20 text-white" style="background-image: url('votre-image-de-fond.jpg');">
+            <div class="absolute inset-0 bg-black/50"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="flex flex-col">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-2">Votre Profile</h2>
+                    <span class="text-gray-100 mb-4">informations Personel & Professionelles</span>
+                    
+                    <ol class="flex items-center space-x-2 text-sm text-gray-400">
+                        <li><a href="#!" class="hover:text-white transition">Home</a></li>
+                        <li class="before:content-['/'] before:mr-2 before:text-gray-500 text-white font-medium">Profile</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="bg-gray-900 py-8 border-b border-gray-200">
+        {# <section class="bg-gray-100 py-8 border-b border-gray-200"> #}
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center flex-wrap justify-center sm:justify-start gap-4">
+                        <img src="https://i.imgur.com/s9bPVaK.gif" class="h-20 w-[201px] object-contain" alt="Hooray animation">
+                        <h4 class="text-xl font-semibold text-gray-700">
+                           Votre profile est complet
+                        </h4>
+                    </div>
+                    
+                    <div class="relative flex items-center justify-center w-20 h-20 rounded-full bg-green-100 border-4 border-green-500">
+                        <span class="text-green-700 font-bold text-lg">100%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <form method="POST" action="#!" accept-charset="UTF-8" id="candidateForm" role="form" enctype="multipart/form-data" class="container mx-auto px-4 py-12">
+            <input name="_token" type="hidden" value="UYfchy67WuTVzhSstPK1RDZEIfgqpKCcLnLyhf8a">
+            
+            <section class="mb-12">
+                <h3 class="text-2xl font-black mb-8 border-b pb-2 text-gray-900">Vos informations personnel</h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+                    <div class="flex flex-col-reverse">
+                        <select id="gender" name="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 border text-gray-700">
+                            <option value="">Choose an option...</option>
+                            <option value="male">Male</option>
+                            <option value="female" selected="selected">Female</option>
+                            <option value="transgender">Transgender</option>
+                        </select>
+                        <label for="gender" class="text-sm font-semibold text-gray-600">Gender</label>
+                    </div>
+
+                    <div class="flex flex-col-reverse">
+                        <input type="text" name="first_name" id="first_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                        <label for="first_name" class="text-sm font-semibold text-gray-600">First name</label>
+                    </div>
+
+                    <div class="flex flex-col-reverse">
+                        <input type="text" name="last_name" id="last_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                        <label for="last_name" class="text-sm font-semibold text-gray-600">Last name</label>
+                    </div>
+
+                    <div class="flex flex-col-reverse">
+                        <input type="text" name="current_location" id="current_location" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                        <label for="current_location" class="text-sm font-semibold text-gray-600">Current location</label>
+                    </div>
+
+                    <div class="flex flex-col-reverse sm:col-span-2">
+                        <input type="text" name="address" id="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                        <label for="address" class="text-sm font-semibold text-gray-600">Address</label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                    <div class="flex flex-col space-y-2">
+                        <label class="text-sm font-semibold text-gray-600">Photo</label>
+                        <div class="flex items-center space-x-4 bg-white p-3 rounded-md border border-gray-300 shadow-sm">
+                            <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition flex items-center space-x-1">
+                                <i class="material-icons text-base">insert_photo</i>
+                                <span>Browse</span>
+                                <input id="photo" name="photo" type="file" accept=".pdf,.jpg,.doc,.docx,.png,.gif" class="hidden">
+                            </label>
+                            <div class="text-xs text-gray-500 truncate">
+                                <a href="#!" target="_blank" class="text-blue-600 hover:underline flex items-center"><i class="material-icons text-sm mr-1">&#xE24D;</i> profil_picture.jpg</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="flex flex-col-reverse">
+                            <input type="text" name="country" id="country" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                            <label for="country" class="text-sm font-semibold text-gray-600">Country</label>
+                        </div>
+                        <div class="flex flex-col-reverse">
+                            <input type="text" name="nationality" id="nationality" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                            <label for="nationality" class="text-sm font-semibold text-gray-600">Nationality</label>
+                        </div>
+                        <div class="flex flex-col-reverse">
+                            <input type="text" name="birth_date" id="birth_date" class="datepicker mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                            <label for="birth_date" class="text-sm font-semibold text-gray-600">Birthdate</label>
+                        </div>
+                        <div class="flex flex-col-reverse">
+                            <input type="text" name="birth_place" id="birth_place" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border">
+                            <label for="birth_place" class="text-sm font-semibold text-gray-600">Birthplace</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-black mb-8 border-b pb-2 text-gray-900">Your professional profile</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                    <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm space-y-6">
+                        <div class="flex flex-col space-y-2">
+                            <span class="text-sm font-semibold text-gray-600">Passport</span>
+                            <div class="flex items-center space-x-4 bg-gray-50 p-3 rounded border">
+                                <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition flex items-center space-x-1">
+                                    <i class="material-icons text-base">&#xE24D;</i>
+                                    <span>Upload</span>
+                                    <input id="passport" name="passport" type="file" class="hidden">
+                                </label>
+                                <a href="#!" target="_blank" class="text-sm text-blue-600 hover:underline truncate flex items-center"><i class="material-icons text-sm mr-1">&#xE24D;</i> passeport.jpg</a>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col space-y-2">
+                            <span class="text-sm font-semibold text-gray-600">CV</span>
+                            <div class="flex items-center space-x-4 bg-gray-50 p-3 rounded border">
+                                <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition flex items-center space-x-1">
+                                    <i class="material-icons text-base">&#xE24D;</i>
+                                    <span>Upload</span>
+                                    <input id="cv" name="cv" type="file" class="hidden">
+                                </label>
+                                <a href="#!" target="_blank" class="text-sm text-blue-600 hover:underline truncate flex items-center"><i class="material-icons text-sm mr-1">&#xE24D;</i> CV.pdf</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex flex-col-reverse">
+                            <select id="job_sector" name="job_sector[]" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 border text-gray-700 h-24">
+                                <option value="">Choose an option...</option>
+                                <option value="yachting">Job sector</option>
+                            </select>
+                            <label for="job_sector" class="text-sm font-semibold text-gray-600">Interest in job sector</label>
+                        </div>
+
+                        <div class="flex flex-col-reverse">
+                            <select id="experience" required name="experience" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 border text-gray-700">
+                                <option value="">Choose</option>
+                                <option value="3m">0 - 6 month</option>
+                                <option value="6m">6 month - 1 year</option>
+                                <option value="1y">1 - 2 years</option>
+                                <option value="2y">2+ years</option>
+                                <option value="5y" selected>5+ years</option>
+                                <option value="10y">10+ years</option>
+                            </select>
+                            <label for="experience" class="text-sm font-semibold text-gray-600">Experience</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col-reverse w-full">
+                    <textarea id="description" name="description" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border"></textarea>
+                    <label for="description" class="text-sm font-semibold text-gray-600 leading-relaxed">
+                        Short description for your profile, as well as more personal informations (e.g. your hobbies/interests). You can also paste any link you want.
+                    </label>
+                </div>
+            </section>
+
+            <section class="mb-12 bg-gray-100 p-6 rounded-lg border border-gray-200">
+                <h3 class="text-2xl font-black mb-8 border-b pb-2 text-gray-900">Your K-Yachting account</h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                    <div class="flex flex-col-reverse">
+                        <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 border">
+                        <label for="email" class="text-sm font-semibold text-gray-600">Email</label>
+                    </div>
+                    <div class="flex flex-col-reverse">
+                        <input type="password" name="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 border">
+                        <label for="password" class="text-sm font-semibold text-gray-600">Change your password here</label>
+                    </div>
+                    <div class="flex flex-col-reverse">
+                        <input type="password" name="password_repeat" id="password_repeat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 border">
+                        <label for="password_repeat" class="text-sm font-semibold text-gray-600">Confirm your new password</label>
+                    </div>
+                </div>
+
+                <div class="w-full mb-8">
+                    <a href="#!" onclick="return prompt('Please Type \'Delete my account\' to delete your K-Yachting Services account:') == 'Delete my account'" class="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded transition duration-200 text-sm w-full sm:w-auto space-x-2">
+                        <i class="material-icons text-lg">&#xE872;</i>
+                        <span>Delete my account</span>
+                    </a>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-6">
+                    <a href="#!" class="inline-flex items-center justify-center border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold py-3 px-6 rounded transition duration-200 text-sm w-full sm:w-auto space-x-2">
+                        <i class="fa fa-long-arrow-left"></i>
+                        <span>Back home</span>
+                    </a>
+                    
+                    <button type="submit" class="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded shadow-md transition duration-200 text-sm uppercase tracking-wide">
+                        <span><strong>Update</strong> Now</span>
+                    </button>
+                </div>
+            </section>
+        </form>
+
+    </div>
+
+</div>
+
+{{ include ('_partials/_footer.html.twig') }}
+
+
+{% endblock %}

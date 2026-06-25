@@ -2,13 +2,31 @@
 
 {% block title %}Register{% endblock %}
 
+{% block stylesheets %}
+        {{ parent() }}
+
+        <style>
+     body {
+            background-image: url('{{ asset("assets/imag/bg2.jpg") }}') !important;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        </style>
+
+{%  endblock  %}
+
+
+
+
+
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
-
+  {{ include ('_partials/_header.html.twig')}}
+{# 
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
@@ -19,5 +37,78 @@
         {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+    {{ form_end(registrationForm) }} #}
+
+<div class="container mx-auto px-4 py-12 mt-10">
+    <div class="flex justify-center">
+        <div class="w-full sm:w-10/12 md:w-6/12 bg-white rounded-lg border border-gray-200 shadow-lg p-6 sm:p-8">
+            
+            <h3 class="text-2xl font-black text-gray-900 mb-6">Creer un nouveau compte</h3>
+            
+            {{ form_start(registrationForm, {'attr': {'id': 'register-form', 'class': 'space-y-6', 'data-parsley-validate': ''}}) }}
+
+                {# Champ Email #}
+                <div class="flex flex-col-reverse relative">
+                    {{ form_widget(registrationForm.email, {
+                        'attr': {
+                            'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border text-gray-800',
+                            'required': 'required',
+                            'data-parsley-trigger': 'change',
+                            'data-parsley-error-message': 'A valid email address is required.'
+                        }
+                    }) }}
+                    {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'text-sm font-semibold text-gray-600'}}) }}
+                    <span class="text-xs text-gray-400 mt-1 block">votre adresse mail.</span>
+                </div>
+
+                {# Champ Mot de passe (Note: Ajustez 'plainPassword' selon la structure de votre FormType si c'est un RepeatedType) #}
+                <div class="flex flex-col-reverse relative">
+                    {{ form_widget(registrationForm.plainPassword, {
+                        'attr': {
+                            'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border text-gray-800 pr-10',
+                            'required': 'required',
+                            'data-parsley-trigger': 'change',
+                            'data-parsley-minlength': '6',
+                            'data-parsley-error-message': 'The password must be at least 6 characters.'
+                        }
+                    }) }}
+                    {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'text-sm font-semibold text-gray-600'}}) }}
+                    
+                    <i class="fa fa-eye show-password absolute right-3 top-9 text-gray-400 cursor-pointer hover:text-gray-600"></i>
+                    
+                    <span class="text-xs text-gray-400 mt-1 block">Votre mot de passe.</span>
+                </div>
+
+                {# Case à cocher : CGU #}
+                <div class="flex items-start items-center space-x-2 py-2">
+                    {{ form_widget(registrationForm.agreeTerms, {
+                        'attr': {
+                            'class': 'h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer',
+                            'required': 'required'
+                        }
+                    }) }}
+                    <label for="{{ registrationForm.agreeTerms.vars.id }}" class="text-sm text-gray-600 cursor-pointer select-none">
+                        j'ai lu et accept <a href="#!" target="_blank" class="text-blue-600 hover:underline font-medium">Les Terms D'Utilisation</a>
+                    </label>
+                </div>
+
+                {# Bouton d'action avec le dégradé Premium #}
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded shadow-md transition duration-200 text-sm uppercase tracking-wide mt-4 mb-4">
+                    Creer un compte
+                </button>
+
+                {# Lien de redirection #}
+                <div class="text-center pt-2">
+                    <a href="/login.html" class="text-sm text-blue-600 hover:underline transition">
+                       pas encore de compte ? Click Ici
+                    </a>
+                </div>
+
+            {{ form_end(registrationForm) }}
+            
+        </div>
+    </div>
+</div>
+  {{ include ('_partials/_footer.html.twig')}}
+
 {% endblock %}
