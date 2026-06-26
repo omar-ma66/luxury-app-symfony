@@ -3,11 +3,130 @@
 {% block title %}Edit Job{% endblock %}
 
 {% block body %}
-    <h1>Edit Job</h1>
+  {{ include ('_partials/_header.html.twig')}}
+<style>
+body{
+    background-image:url('{{asset("assets/img/bg2.jpg")}}');
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment: fixed; 
+} 
 
-    {{ include('job/_form.html.twig', {'button_label': 'Update'}) }}
+</style>
 
-    <a href="{{ path('app_job_index') }}">back to list</a>
 
-    {{ include('job/_delete_form.html.twig') }}
+
+
+
+{{ form_start(form, {'attr': {'class': 'max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6 mt-26'}}) }}
+
+    {# Section : Titre informatif du formulaire #}
+    <div class="border-b border-slate-100 pb-4">
+        <h2 class="text-xl font-bold text-slate-900">Informations du poste</h2>
+        <p class="text-sm text-slate-500 mt-1">Remplissez les champs nécessaires pour configurer la fiche de poste.</p>
+    </div>
+
+    {# 1. Champ principal : Intitulé #}
+    <div class="flex flex-col gap-1.5">
+        {{ form_label(form.intitule, null, {'label_attr': {'class': 'text-xs font-semibold uppercase tracking-wider text-slate-500'}}) }}
+        {{ form_widget(form.intitule, {'attr': {'class': 'w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-sm'}}) }}
+        {% if form_errors(form.intitule) %}
+            <div class="text-xs text-red-500 font-medium mt-1">{{ form_errors(form.intitule) }}</div>
+        {% endif %}
+    </div>
+
+    {# 2. Ligne double : Type et Catégorie #}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="flex flex-col gap-1.5">
+            {{ form_label(form.type, null, {'label_attr': {'class': 'text-xs font-semibold uppercase tracking-wider text-slate-500'}}) }}
+            {{ form_widget(form.type, {'attr': {'class': 'w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-sm'}}) }}
+            {% if form_errors(form.type) %}
+                <div class="text-xs text-red-500 font-medium mt-1">{{ form_errors(form.type) }}</div>
+            {% endif %}
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+            {{ form_label(form.categorie, null, {'label_attr': {'class': 'text-xs font-semibold uppercase tracking-wider text-slate-500'}}) }}
+            {{ form_widget(form.categorie, {'attr': {'class': 'w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-sm'}}) }}
+            {% if form_errors(form.categorie) %}
+                <div class="text-xs text-red-500 font-medium mt-1">{{ form_errors(form.categorie) }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# 3. Ligne double : Date de création et Option Active #}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-end">
+        <div class="flex flex-col gap-1.5">
+            {{ form_label(form.creation, null, {'label_attr': {'class': 'text-xs font-semibold uppercase tracking-wider text-slate-500'}}) }}
+            {{ form_widget(form.creation, {'attr': {'class': 'w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-sm'}}) }}
+            {% if form_errors(form.creation) %}
+                <div class="text-xs text-red-500 font-medium mt-1">{{ form_errors(form.creation) }}</div>
+            {% endif %}
+        </div>
+
+        {# Option "Active" intégrée dans un bloc cliquable #}
+        <div class="flex items-center h-[46px] border border-slate-200 bg-slate-50/50 rounded-xl px-4 gap-3 hover:bg-slate-50 transition-colors">
+            {{ form_widget(form.active, {'attr': {'class': 'h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/30'}}) }}
+            {{ form_label(form.active, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700 cursor-pointer select-none'}}) }}
+            {% if form_errors(form.active) %}
+                <div class="text-xs text-red-500 font-medium ml-auto">{{ form_errors(form.active) }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# 4. Champ : Notes #}
+    <div class="flex flex-col gap-1.5">
+        {{ form_label(form.notes, null, {'label_attr': {'class': 'text-xs font-semibold uppercase tracking-wider text-slate-500'}}) }}
+        {{ form_widget(form.notes, {'attr': {'class': 'w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-sm min-h-[80px]'}}) }}
+        {% if form_errors(form.notes) %}
+            <div class="text-xs text-red-500 font-medium mt-1">{{ form_errors(form.notes) }}</div>
+        {% endif %}
+    </div>
+
+    {# 5. Champ : Description #}
+    <div class="flex flex-col gap-1.5">
+        {{ form_label(form.description, null, {'label_attr': {'class': 'text-xs font-semibold uppercase tracking-wider text-slate-500'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-sm min-h-[140px]'}}) }}
+        {% if form_errors(form.description) %}
+            <div class="text-xs text-red-500 font-medium mt-1">{{ form_errors(form.description) }}</div>
+        {% endif %}
+    </div>
+
+    {# Actions du bas : Annuler / Enregistrer #}
+    <div class="pt-6 border-t border-slate-100 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4">
+        
+        {# Lien Retour stylisé discrètement #}
+        <a class="group inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-all duration-200" 
+           href="{{ path('app_job_index') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 transition-transform group-hover:-translate-x-0.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            Retour à la liste
+        </a>
+
+        {# Bouton principal d'enregistrement #}
+        <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-xl shadow-sm transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-500/20">
+            Enregistrer les modifications
+        </button>
+
+
+
+         {# {{ include('job/_delete_form.html.twig') }} #}
+    </div>
+
+{{ form_end(form) }}
+   
+ <form method="post" action="{{ path('app_job_delete', {'id': job.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" class="inline-block">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ job.id) }}">
+    
+    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-red-5/80 hover:bg-red-50 text-red-600 hover:text-red-700 font-medium text-sm rounded-xl border border-red-100/50 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-500/10">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+        </svg>
+        Supprimer
+    </button>
+</form>
+
+  {{ include ('_partials/_footer.html.twig')}}
 {% endblock %}

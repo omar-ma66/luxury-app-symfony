@@ -14,7 +14,12 @@ class JobType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('description')
+            ->add('description',TextareaType::class,
+            [
+                'attr'=>[
+                    'placeholder'=>"description du poste...",
+                    'class'=>"w-full py-3 block border border-gray-300 shadow-sm  shadow-gray ronded-lg focus:ring-blue-500 "],
+            ])
             ->add('active')
           ->add('notes', TextareaType::class, [
     'attr' => [

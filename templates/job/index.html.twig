@@ -1,47 +1,145 @@
+
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Job index{% endblock %}
+{% block title %}Liste des Jobs{% endblock %}
 
 {% block body %}
-    <h1>Job index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Active</th>
-                <th>Notes</th>
-                <th>Intitule</th>
-                <th>Type</th>
-                <th>Categorie</th>
-                <th>Creation</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for job in jobs %}
-            <tr>
-                <td>{{ job.id }}</td>
-                <td>{{ job.description }}</td>
-                <td>{{ job.active ? 'Yes' : 'No' }}</td>
-                <td>{{ job.notes }}</td>
-                <td>{{ job.intitule }}</td>
-                <td>{{ job.type }}</td>
-                <td>{{ job.categorie }}</td>
-                <td>{{ job.creation ? job.creation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_job_show', {'id': job.id}) }}">show</a>
-                    <a href="{{ path('app_job_edit', {'id': job.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+ 
+<style>
+body{
+    background-image:url('{{asset("assets/img/bg2.jpg")}}');
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment: fixed; 
+} 
 
-    <a href="{{ path('app_job_new') }}">Create new</a>
+</style>
+
+
+{{ include ('_partials/_header.html.twig')}}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    {# En-tête de la page avec bouton de création aligné #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Gestion des Offres</h1>
+            <p class="text-sm text-slate-500 mt-1">Consultez, modifiez ou ajoutez des fiches de postes de votre entreprise.</p>
+        </div>
+        
+        <a class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-xl shadow-sm transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-500/20" 
+           href="{{ path('app_job_new') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Créer un nouveau job
+        </a>
+    </div>
+
+    {# Conteneur du tableau avec effet de débordement pour le mobile (Scroll horizontal propre) #}
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/70 border-b border-slate-100 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <th class="py-4 px-6 w-16">ID</th>
+                        <th class="py-4 px-6">Intitulé / Catégorie</th>
+                        <th class="py-4 px-6">Type</th>
+                        <th class="py-4 px-6 hidden md:table-cell">Description & Notes</th>
+                        <th class="py-4 px-6 text-center">Statut</th>
+                        <th class="py-4 px-6 hidden lg:table-cell">Créé le</th>
+                        <th class="py-4 px-6 text-right w-24">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm">
+                {% for job in jobs %}
+                    <tr class="hover:bg-slate-50/50 transition-colors duration-150">
+                        {# ID #}
+                        <td class="py-4 px-6 font-mono text-xs text-slate-400">#{{ job.id }}</td>
+                        
+                        {# Intitulé & Catégorie combinés pour un look pro #}
+                        <td class="py-4 px-6">
+                            <div class="font-semibold text-slate-900">{{ job.intitule }}</div>
+                            <div class="text-xs text-slate-400 mt-0.5">{{ job.categorie }}</div>
+                        </td>
+                        
+                        {# Type de contrat #}
+                        <td class="py-4 px-6">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200">
+                                {{ job.type }}
+                            </span>
+                        </td>
+                        
+                        {# Description & Notes (Truncated pour ne pas casser la hauteur) #}
+                        <td class="py-4 px-6 max-w-xs hidden md:table-cell">
+                            <p class="text-slate-600 truncate" title="{{ job.description }}">{{ job.description }}</p>
+                            {% if job.notes %}
+                                <p class="text-xs text-amber-600 italic truncate mt-0.5" title="{{ job.notes }}">Note: {{ job.notes }}</p>
+                            {% endif %}
+                        </td>
+                        
+                        {# Badge Actif / Inactif #}
+                        <td class="py-4 px-6 text-center">
+                            {% if job.active %}
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    Actif
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-500 border border-slate-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                    Inactif
+                                </span>
+                            {% endif %}
+                        </td>
+                        
+                        {# Date de création #}
+                        <td class="py-4 px-6 text-slate-500 text-xs whitespace-nowrap hidden lg:table-cell">
+                            {{ job.creation ? job.creation|date('d/m/Y H:i') : '-' }}
+                        </td>
+                        
+                        {# Actions (Boutons épurés) #}
+                        <td class="py-4 px-6 text-right whitespace-nowrap">
+                            <div class="inline-flex items-center gap-2">
+                                {# Voir #}
+                                <a href="{{ path('app_job_show', {'id': job.id}) }}" 
+                                   class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" 
+                                   title="Voir les détails">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+                                </a>
+                                {# Modifier #}
+                                <a href="{{ path('app_job_edit', {'id': job.id}) }}" 
+                                   class="p-2 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all" 
+                                   title="Modifier">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    {# État vide (Aucun enregistrement) stylisé avec élégance #}
+                    <tr>
+                        <td colspan="7" class="py-12 px-6 text-center text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mx-auto text-slate-300 mb-3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m16.5 0a1.5 1.5 0 00-1.5-1.5H5.25A1.5 1.5 0 003 7.5m16.5 0V4.5A1.5 1.5 0 0018 3H6.5a1.5 1.5 0 00-1.5 1.5V7.5m10.5 5h-4.5" />
+                            </svg>
+                            <span class="block font-medium text-slate-500">Aucune offre trouvée</span>
+                            <span class="block text-xs text-slate-400 mt-1">Commencez par en ajouter une nouvelle pour alimenter la liste.</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{{ include ('_partials/_footer.html.twig')}}
 {% endblock %}

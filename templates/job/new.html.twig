@@ -3,9 +3,98 @@
 {% block title %}New Job{% endblock %}
 
 {% block body %}
-    <h1>Create new Job</h1>
+  
+    {# {{ include('job/_form.html.twig') }} #}
+<style>
+    body{
+        background-color:#000;
+    }
+</style>
+        {{ include ('_partials/_header.html.twig')}}
+{{ form_start(form, {'attr': {'class': 'max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-6 mt-26' }}) }}
 
-    {{ include('job/_form.html.twig') }}
+    {# En-tête du formulaire (Optionnel mais recommandé pour le pro) #}
+    <div class="border-b border-slate-100 pb-4 mb-6">
+        <h2 class="text-xl font-semibold text-slate-800">Créer une nouvelle offre</h2>
+        <p class="text-sm text-slate-500">Veuillez remplir les informations ci-dessous.</p>
+    </div>
 
-    <a href="{{ path('app_job_index') }}">back to list</a>
+    {# Groupe : Intitulé #}
+    <div class="flex flex-col gap-1.5">
+        {{ form_label(form.intitule, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700'}}) }}
+        {{ form_widget(form.intitule, {'attr': {'class': 'w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm'}}) }}
+        <div class="text-xs text-red-500 mt-1 font-medium">{{ form_errors(form.intitule) }}</div>
+    </div>
+
+    {# Ligne à 2 colonnes : Type & Catégorie #}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {# Groupe : Type #}
+        <div class="flex flex-col gap-1.5">
+            {{ form_label(form.type, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700'}}) }}
+            {{ form_widget(form.type, {'attr': {'class': 'w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm'}}) }}
+            <div class="text-xs text-red-500 mt-1 font-medium">{{ form_errors(form.type) }}</div>
+        </div>
+
+        {# Groupe : Catégorie #}
+        <div class="flex flex-col gap-1.5">
+            {{ form_label(form.categorie, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700'}}) }}
+            {{ form_widget(form.categorie, {'attr': {'class': 'w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm'}}) }}
+            <div class="text-xs text-red-500 mt-1 font-medium">{{ form_errors(form.categorie) }}</div>
+        </div>
+    </div>
+
+    {# Ligne à 2 colonnes : Date de création & Actif (Checkbox) #}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+        {# Groupe : Création (Date) #}
+        <div class="flex flex-col gap-1.5">
+            {{ form_label(form.creation, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700'}}) }}
+            {{ form_widget(form.creation, {'attr': {'class': 'w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm'}}) }}
+            <div class="text-xs text-red-500 mt-1 font-medium">{{ form_errors(form.creation) }}</div>
+        </div>
+
+        {# Groupe : Active (Checkbox stylisée) #}
+        <div class="flex items-center h-10 border border-slate-200 bg-slate-50 rounded-lg px-4 gap-3">
+            {{ form_widget(form.active, {'attr': {'class': 'h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/30'}}) }}
+            {{ form_label(form.active, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700 select-none cursor-pointer'}}) }}
+            <div class="text-xs text-red-500 font-medium">{{ form_errors(form.active) }}</div>
+        </div>
+    </div>
+
+    {# Groupe : Notes #}
+    <div class="flex flex-col gap-1.5">
+        {{ form_label(form.notes, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700'}}) }}
+        {{ form_widget(form.notes, {'attr': {'class': 'w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm min-h-[80px]'}}) }}
+        <div class="text-xs text-red-500 mt-1 font-medium">{{ form_errors(form.notes) }}</div>
+    </div>
+
+    {# Groupe : Description (Manquait une div ouvrante dans votre code initial, corrigé ici) #}
+    <div class="flex flex-col gap-1.5">
+        {{ form_label(form.description, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm min-h-[120px]'}}) }}
+        <div class="text-xs text-red-500 mt-1 font-medium">{{ form_errors(form.description) }}</div>
+    </div>
+
+    {# Bouton de validation (Optionnel mais indispensable pour soumettre) #}
+    <div class="pt-4 border-t border-slate-100 flex justify-between">
+        <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-4 focus:ring-blue-500/20">
+            Enregistrer
+        </button>
+
+
+       <a class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-lg transition-colors duration-200" 
+   href="{{ path('app_job_index') }}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+    </svg>
+    Retour à la liste
+</a> 
+    </div>
+
+
+
+{{ form_end(form) }}
+
+
+{{ include ('_partials/_footer.html.twig')}}
+
 {% endblock %}

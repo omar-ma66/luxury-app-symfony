@@ -4,12 +4,24 @@
 
 {% block body %}
 
+
+<style>
+body{
+    background-image:url('{{asset("assets/img/bg1.jpg")}}');
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment: fixed; 
+} 
+
+</style>
+
 {{ include ('_partials/_header.html.twig')}}
 
 
 
 {# Bloc d'erreur de connexion #}
-{% if error %}
+{# {% if error %}
     <div class="flex items-center p-4 mb-6 text-sm text-red-800 border-l-4 border-red-500 bg-red-50 rounded-r-lg shadow-sm" role="alert">
         <svg class="flex-shrink-0 inline w-4 h-4 mr-3 text-red-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -18,10 +30,10 @@
             {{ error.messageKey|trans(error.messageData, 'security') }}
         </div>
     </div>
-{% endif %}
+{% endif %} #}
 
 {# Bloc Utilisateur déjà connecté #}
-{% if app.user %}
+{# {% if app.user %}
     <div class="flex flex-col sm:flex-row items-center justify-between p-4 mb-6 text-sm text-blue-800 bg-blue-50 rounded-lg border border-blue-100 shadow-sm gap-3">
         <div class="flex items-center">
             <svg class="flex-shrink-0 inline w-4 h-4 mr-2 text-blue-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -38,7 +50,7 @@
             </svg>
         </a>
     </div>
-{% endif %}
+{% endif %} #}
 
 
 
