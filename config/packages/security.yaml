@@ -22,6 +22,7 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
+                default_target_path: app_home
                 enable_csrf: true
             logout:
                 path: app_logout
@@ -41,6 +42,10 @@ security:
 
 when@test:
     security:
+        role_hierarchy:
+             ROLE_CANDIDAT: ROLE_USER
+             ROLE_RH: ROLE_USER
+             ROLE_ADMIN: ['ROLE_CANDIDAT' , 'ROLE_RH' ,'ROLE_USER' ]        
         password_hashers:
             # Password hashers are resource-intensive by design to ensure security.
             # In tests, it's safe to reduce their cost to improve performance.
