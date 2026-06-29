@@ -25,11 +25,14 @@ final class JobController extends AbstractController
     #[Route('/new', name: 'app_job_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+      
+
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+    
             $entityManager->persist($job);
             $entityManager->flush();
 

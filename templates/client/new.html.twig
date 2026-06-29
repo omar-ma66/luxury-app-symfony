@@ -18,10 +18,10 @@
  }
 </style>
 
-    {# {{ include('client/_form.html.twig') }} #}
+     {{ include('_partials/_header.html.twig') }} 
 
 
-                 {{ form_start(form, {'attr': {'class': 'max-w-4xl mx-auto bg-white/60 p-8 rounded-xl shadow-sm border border-slate-100 space-y-8'}}) }}
+                 {{ form_start(form, {'attr': {'class': 'mt-23 max-w-4xl mx-auto bg-white/60 p-8 rounded-xl shadow-sm border border-slate-100 space-y-8'}}) }}
 
     {# Section : Informations Entreprise #}
     <div>
@@ -66,6 +66,7 @@
             </div>                        
         </div>
     </div>
+    
 
     {# Section : Message #}
     <div class="border-t border-slate-100 pt-6">
@@ -86,4 +87,6 @@
     </div>
 
 {{ form_end(form) }}
+     {{ include('_partials/_footer.html.twig') }} 
+
 {% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JobRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
@@ -33,6 +35,20 @@ class Job
 
     #[ORM\Column]
     private ?\DateTimeImmutable $creation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'jobs')]
+    private ?Client $client = null;
+
+    /**
+     * @var Collection<int, Candidat>
+     */
+    #[ORM\ManyToMany(targetEntity: Candidat::class, mappedBy: 'job')]
+    private Collection $candidats;
+
+    public function __construct()
+    {
+        $this->candidats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +135,45 @@ class Job
     public function setCreation(\DateTimeImmutable $creation): static
     {
         $this->creation = $creation;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidat>
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidat $candidat): static
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats->add($candidat);
+            $candidat->addJob($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidat $candidat): static
+    {
+        if ($this->candidats->removeElement($candidat)) {
+            $candidat->removeJob($this);
+        }
 
         return $this;
     }

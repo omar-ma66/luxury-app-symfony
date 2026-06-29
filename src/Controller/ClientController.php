@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\User;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
@@ -24,13 +24,24 @@ final class ClientController extends AbstractController
 
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    {  
+        $user = $this->getUser();
+        if(!$user)
+            {
+                throw $this->createAccessDeniedException("vous devez etre connecter");
+            }
+        /**   @var User $user */
+        
         $client = new Client();
-        $form = $this->createForm(ClientType::class, $client);
+        /** @var User $user   */    
+       $user->addClient($client);
+   
+        $form = $this->createForm(ClientType::class, $client); 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($client);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);

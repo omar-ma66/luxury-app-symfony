@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CandidatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CandidatRepository::class)]
@@ -48,6 +50,20 @@ class Candidat
 
     #[ORM\Column(length: 255)]
     private ?string $genre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'candidats')]
+    private ?User $user = null;
+
+    /**
+     * @var Collection<int, Job>
+     */
+    #[ORM\ManyToMany(targetEntity: Job::class, inversedBy: 'candidats')]
+    private Collection $job;
+
+    public function __construct()
+    {
+        $this->job = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -194,6 +210,42 @@ class Candidat
     public function setGenre(string $genre): static
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Job>
+     */
+    public function getJob(): Collection
+    {
+        return $this->job;
+    }
+
+    public function addJob(Job $job): static
+    {
+        if (!$this->job->contains($job)) {
+            $this->job->add($job);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): static
+    {
+        $this->job->removeElement($job);
 
         return $this;
     }

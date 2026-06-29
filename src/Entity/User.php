@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -35,6 +37,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+
+   
+
+    /**
+     * @var Collection<int, Candidat>
+     */
+    #[ORM\OneToMany(targetEntity: Candidat::class, mappedBy: 'user')]
+    private Collection $candidats;
+
+    /**
+     * @var Collection<int, Client>
+     */
+    #[ORM\OneToMany(targetEntity: Client::class, mappedBy: 'user')]
+    private Collection $clients;
+
+    public function __construct()
+    {
+   
+        $this->candidats = new ArrayCollection();
+        $this->clients = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +143,86 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    // public function getUser(): ?self
+    // {
+    //     return $this->user;
+    // }
+
+    // public function setUser(?self $user): static
+    // {
+    //     $this->user = $user;
+
+    //     return $this;
+    // }
+
+    /**
+     * @return Collection<int, self>
+     */
+   
+
+  
+
+
+    /**
+     * @return Collection<int, Candidat>
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidat $candidat): static
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats->add($candidat);
+            $candidat->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidat $candidat): static
+    {
+        if ($this->candidats->removeElement($candidat)) {
+            // set the owning side to null (unless already changed)
+            if ($candidat->getUser() === $this) {
+                $candidat->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Client>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            // set the owning side to null (unless already changed)
+            if ($client->getUser() === $this) {
+                $client->setUser(null);
+            }
+        }
 
         return $this;
     }

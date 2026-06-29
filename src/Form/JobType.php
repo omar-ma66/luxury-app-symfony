@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Job;
+use App\Entity\Client;
+use Dom\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -14,6 +17,23 @@ class JobType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('client',EntityType::class,[
+         'class' => Client::class,
+    // Quelle propriété afficher dans la liste déroulante (ex: 'nomSociete')
+    'choice_label' => 'id', 
+    'placeholder' => 'Choisir un client...',
+    'attr' => ['class' => 'w-full px-4 py-2 rounded-xl border border-slate-200']])
+
+
+
+
+
+
+
+
+
+
+
             ->add('description',TextareaType::class,
             [
                 'attr'=>[
