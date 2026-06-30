@@ -29,7 +29,8 @@
 			<h1 class="mt-20 text-center text-3xl font-bold text-white ">
 				Luxury Services
 			</h1>
-			<button class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md">Voir les offres d'emploi</button>
+			{# <button class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md">Voir les offres d'emploi</button> #}
+			<a class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md" href="{{ path('app_job_index')}}">Voir les offres d'emploi</a>
 
 		</div>
 
@@ -39,7 +40,8 @@
 				<h3 class="text-white font-bold text-3xl uppercase ">NOUS AVONS LA SOLUTION QU'IL VOUS FAUT</h3>
 			</div>
 			<div>
-				<button class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md">Contactez nous</button>
+				<a  class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md" href="{{path('app_client_new')}}">Contactez nous</a>
+				{# <button class="text-white py-4 px-4 bg-[#b6a575] hover:bg-[#b69d59] transition rounded-md">Contactez nous</button> #}
 			</div>
 		</div>
 	</div>

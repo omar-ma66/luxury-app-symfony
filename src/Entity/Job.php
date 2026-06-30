@@ -45,9 +45,16 @@ class Job
     #[ORM\ManyToMany(targetEntity: Candidat::class, mappedBy: 'job')]
     private Collection $candidats;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobs')]
+    private Collection $user;
+
     public function __construct()
     {
         $this->candidats = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,6 +181,30 @@ class Job
         if ($this->candidats->removeElement($candidat)) {
             $candidat->removeJob($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        $this->user->removeElement($user);
 
         return $this;
     }

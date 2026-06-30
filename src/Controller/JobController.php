@@ -10,29 +10,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/job')]
 final class JobController extends AbstractController
 {
     #[Route(name: 'app_job_index', methods: ['GET'])]
+    #[IsGranted('ROLE_CANDIDAT')]
     public function index(JobRepository $jobRepository): Response
     {
         return $this->render('job/index.html.twig', [
             'jobs' => $jobRepository->findAll(),
         ]);
     }
-
+// #######################################################################################################################################
     #[Route('/new', name: 'app_job_new', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-      
-
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
     
+
+                       
+                                     
             $entityManager->persist($job);
             $entityManager->flush();
 
@@ -44,6 +48,7 @@ final class JobController extends AbstractController
             'form' => $form,
         ]);
     }
+// #######################################################################################################################################
 
     #[Route('/{id}', name: 'app_job_show', methods: ['GET'])]
     public function show(Job $job): Response
@@ -52,6 +57,7 @@ final class JobController extends AbstractController
             'job' => $job,
         ]);
     }
+// #######################################################################################################################################
 
     #[Route('/{id}/edit', name: 'app_job_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Job $job, EntityManagerInterface $entityManager): Response
@@ -70,6 +76,7 @@ final class JobController extends AbstractController
             'form' => $form,
         ]);
     }
+// #######################################################################################################################################
 
     #[Route('/{id}', name: 'app_job_delete', methods: ['POST'])]
     public function delete(Request $request, Job $job, EntityManagerInterface $entityManager): Response
@@ -82,3 +89,4 @@ final class JobController extends AbstractController
         return $this->redirectToRoute('app_job_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+// #######################################################################################################################################

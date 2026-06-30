@@ -89,7 +89,10 @@ body{
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Fiche Job #{{ job.id }}</span>
                 <h1 class="text-2xl font-bold text-slate-900 mt-0.5">{{ job.intitule }}</h1>
             </div>
-            
+            {# Je fait un test  #}
+            <div>
+                    <a href="{{ path('app_profile',{id: job.id})}}">Postulez </a>
+            </div>        
             {# Badge de statut (Active) #}
             <div>
                 {% if job.active %}
@@ -150,6 +153,7 @@ body{
         </div>
 
         {# Pied de la carte (Actions : Modifier & Supprimer) #}
+        {% if is_granted('ROLE_ADMIN') %}
         <div class="p-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             
             {# Le formulaire de suppression à gauche #}
@@ -169,6 +173,7 @@ body{
             </div>
 
         </div>
+       {% endif %} 
 
     </div>
 </div>

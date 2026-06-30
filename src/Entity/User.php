@@ -53,11 +53,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Client::class, mappedBy: 'user')]
     private Collection $clients;
 
+    /**
+     * @var Collection<int, Job>
+     */
+    #[ORM\ManyToMany(targetEntity: Job::class, mappedBy: 'user')]
+    private Collection $jobs;
+
     public function __construct()
     {
    
         $this->candidats = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,17 +154,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // public function getUser(): ?self
-    // {
-    //     return $this->user;
-    // }
-
-    // public function setUser(?self $user): static
-    // {
-    //     $this->user = $user;
-
-    //     return $this;
-    // }
 
     /**
      * @return Collection<int, self>
@@ -222,6 +218,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($client->getUser() === $this) {
                 $client->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Job>
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): static
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs->add($job);
+            $job->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): static
+    {
+        if ($this->jobs->removeElement($job)) {
+            $job->removeUser($this);
         }
 
         return $this;

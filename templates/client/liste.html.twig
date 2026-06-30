@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+{% block name %} dasbord client {% endblock %}
+
+
+{% block body %}
+
+<h1> dashbord client </h1>
+{# {{ include ('_partials/_header.html.twig') }} #}
+
+                       {# {%  dump(candidats) %} #}
+<div class="mt-30">
+    {% for collectionCandidats in candidats %}
+        {# On boucle à l'intérieur de la collection pour avoir chaque candidat individuellement #}
+        {% for candidat in collectionCandidats %}
+            <span> {{ candidat.nom }} </span><br>
+            <span> {{ candidat.prenom }} </span><br>
+            <span> {{ candidat.adresse }} </span><br>
+            <span> {{ candidat.pays }} </span><br>
+            <span> {{ candidat.nationalite }} </span><br>
+            <span> {{ candidat.naissance |date('d-m-Y')}} </span><br>
+            <span> {{ candidat.lieuNaissance }} </span><br>
+        {% else %}
+            <span>Aucun candidat dans cette sous-liste</span>
+        {% endfor %}
+    {% else %}
+        <span>Rien de rien</span>
+    {% endfor %}
+</div>
+                    
+{# {{ include ('_partials/_footer.html.twig') }} #}
+
+{% endblock %}

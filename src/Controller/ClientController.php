@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 use App\Entity\User;
+use App\Entity\Job;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/client')]
 final class ClientController extends AbstractController
@@ -23,6 +26,7 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {  
         $user = $this->getUser();
@@ -88,5 +92,36 @@ final class ClientController extends AbstractController
         }
 
         return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+      #[Route('/{id}/liste', name: 'app_client_liste', methods: ['GET','POST'])]
+    public function liste(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager,int $id): Response
+    {
+
+          $alluser=                                      $userRepository->findAll();
+          $alljob=[] ;
+          $candidats=[];
+          $job=[];
+                                        foreach ($alluser as $us)
+                                            {  
+                                                $alljob[] = $us->getJobs();    
+                                                $candidats[] = $us->getCandidats();
+                                            }       
+                
+                                        foreach($alljob as $jb)
+                                            { 
+                                                 /** @var Job $j */    
+                                                 foreach($jb as $j )
+                                                { 
+                                                    $client =  $j->getClient() ;
+                                                        $idc =  $client->getId();
+                                                            if ($idc === $id)
+                                                                    {
+                                                                        $job[] = $j ;
+                                                                    }
+                                                }
+                                            }
+                       /** @var Job $job */    
+        return $this->render('client/liste.html.twig',['job'=>$job ,'candidats'=>$candidats]);
     }
 }
