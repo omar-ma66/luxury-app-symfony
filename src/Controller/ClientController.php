@@ -6,9 +6,12 @@ use App\Entity\Job;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
+use App\Repository\JobRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+// use PhpParser\Node\Stmt\Expression;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -94,50 +97,45 @@ final class ClientController extends AbstractController
         return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
     }
 
+
+
+
+// src/Controller/ClientController.php
+
     #[Route('/{id}/liste', name: 'app_client_liste', methods: ['GET','POST'])]
+    #[isGranted(new Expression("is_granted('ROLE_RH') or is_granted('ROLE_ADMIN')" ))]
     public function liste(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager,int $id): Response
     {
-
-    $idCient = $id ;
     $users   = $userRepository->findAll();
-    $cadidatures=[];
+    $candidatures=[];
     $jobsUser=[];
-   
-                                    foreach($users as $user)
+    $job=[];
+    $jobCandidatures =[] ;
+    $client="";
+                                  foreach($users as $user)
                                            { 
                                     $jobsUser[] =   $user->getJobs();
-                                    $cadidatures[] =  $user->getCandidats();
+                                    $candidatures[] =  $user->getCandidats();
                                            } 
+                                    foreach($jobsUser as  $jobs)
+                                        {
+                                            foreach($jobs as $jobValue)
+                                                {
+                                                      $client = $jobValue->getClient();
+                                                         $idClient = $client->getId();
+                                                            if( $idClient === $id)
+                                                                {
+                                                                    $job[]  = $jobValue;
+                                                                    $jobCandidatures[] = $jobValue->getCandidats();
+                                                                }
+                                                } 
 
-                                    
-dd($jobsUser,$cadidatures);
+                                        }
 
-        //   $alluser=                                      $userRepository->findAll();
-        //   $alljob=[] ;
-        //   $candidats=[];
-        //   $job=[];
-        //                                 foreach ($alluser as $us)
-        //                                     {  
-        //                                         $alljob[] = $us->getJobs();    
-        //                                         $candidats[] = $us->getCandidats();
-        //                                     }       
-                
-        //                                 foreach($alljob as $jb)
-        //                                     { 
-        //                                          /** @var Job $j */    
-        //                                          foreach($jb as $j )
-        //                                         { 
-        //                                             $client =  $j->getClient() ;
-        //                                                 $idc =  $client->getId();
-        //                                                     if ($idc === $id)
-        //                                                             {
-        //                                                                 $job[] = $j ;
-        //                                                             }
-        //                                         }
-        //                                     }
+        // dd($client,$job,$jobCandidatures);
+        
+        return $this->render('client/liste.html.twig',['job'=>$job ,'client'=>$client,'candidatures'=>$candidatures]); 
 
-        //        dd($job)  ;                           
-                       /** @var Job $job */    
-        return $this->render('client/liste.html.twig',['job'=>$job ,'candidats'=>$candidats]);
     }
+
 }

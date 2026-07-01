@@ -1,32 +1,157 @@
-{% extends "base.html.twig" %}
+ {% extends "base.html.twig" %}
 {% block name %} dasbord client {% endblock %}
 
 
 {% block body %}
 
 <h1> dashbord client </h1>
-{# {{ include ('_partials/_header.html.twig') }} #}
 
-                       {# {%  dump(candidats) %} #}
-<div class="mt-30">
-    {% for collectionCandidats in candidats %}
-        {# On boucle à l'intérieur de la collection pour avoir chaque candidat individuellement #}
-        {% for candidat in collectionCandidats %}
-            <span> {{ candidat.nom }} </span><br>
-            <span> {{ candidat.prenom }} </span><br>
-            <span> {{ candidat.adresse }} </span><br>
-            <span> {{ candidat.pays }} </span><br>
-            <span> {{ candidat.nationalite }} </span><br>
-            <span> {{ candidat.naissance |date('d-m-Y')}} </span><br>
-            <span> {{ candidat.lieuNaissance }} </span><br>
-        {% else %}
-            <span>Aucun candidat dans cette sous-liste</span>
-        {% endfor %}
-    {% else %}
-        <span>Rien de rien</span>
-    {% endfor %}
-</div>
+
+{{ include ('_partials/_header.html.twig') }}
+
+{#   #}
+<div class="mx-auto max-w-7xl px-4 py-8 mt-20 ">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        
+   
+      
+        {% for j in job %}
+            <article class="flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md">
+                
+                <div>
+                    <div class="flex items-center justify-between gap-x-4 text-xs">
+                        <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+                            {{ j.categorie }}
+                        </span>
+                        
+                        <span class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium {{ j.active ? 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20' : 'bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10' }}">
+                            <svg class="h-1.5 w-1.5 {{ j.active ? 'fill-emerald-500' : 'fill-gray-400' }}" viewBox="0 0 6 6" aria-hidden="true">
+                                <circle cx="3" cy="3" r="3" />
+                            </svg>
+                            {{ j.active ? 'Actif' : 'Inactif' }}
+                        </span>
+                    </div>
+
+                    <div class="group relative mt-4">
+                        <h3 class="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                            {{ j.intitule }}
+                        </h3>
+                        <p class="mt-1 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Type : {{ j.type }}
+                        </p>
+                        
+                        <p class="mt-4 line-clamp-3 text-sm leading-6 text-gray-600">
+                            {{ j.description }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 border-t border-gray-100 pt-4 text-xs text-gray-500">
+                    {% if j.notes %}
+                        <div class="mb-3 rounded-lg bg-amber-50 p-2.5 text-amber-800 border border-amber-100 italic">
+                            <span class="font-semibold block not-italic text-amber-900 mb-0.5">Note interne :</span>
+                            {{ j.notes }}
+                        </div>
+                    {% endif %}
                     
-{# {{ include ('_partials/_footer.html.twig') }} #}
+                    <div class="flex items-center justify-between">
+                        <time datetime="{{ j.creation|date('Y-m-d') }}" class="text-gray-400">
+                            Publié le {{ j.creation|date('d/m/Y') }}
+                        </time>
+                        <span class="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600">
+                            ID Client : #{{ j.client.id }}
+                        </span>
+                    </div>
+                </div>
+
+            </article>
+        {% else %}
+            <div class="col-span-full rounded-xl border-2 border-dashed border-gray-200 p-12 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                <h3 class="mt-2 text-sm font-semibold text-gray-900">Aucun job disponible</h3>
+                <p class="mt-1 text-sm text-gray-500">Il n'y a actuellement aucune offre d'emploi enregistrée dans le système.</p>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+<div class="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-left text-sm text-gray-500">
+            <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-700 border-b border-gray-200">
+                <tr>
+                    <th scope="col" class="px-6 py-4 whitespace-nowrap">Nom & Prénom</th>
+                    <th scope="col" class="px-6 py-4 whitespace-nowrap">Contact (Mail)</th>
+                    <th scope="col" class="px-6 py-4 whitespace-nowrap">Localisation</th>
+                    <th scope="col" class="px-6 py-4 whitespace-nowrap">Origine / Naissance</th>
+                    <th scope="col" class="px-6 py-4 whitespace-nowrap">Catégorie / Exp.</th>
+                    <th scope="col" class="px-6 py-4">Description</th>
+                    <th scope="col" class="px-6 py-4 text-center">Genre</th>
+                </tr>
+            </thead>
+            
+            <tbody class="divide-y divide-gray-200 bg-white">
+                {% for collectionCandidats in candidatures %}
+                    {% for candidat in collectionCandidats %}
+                        <tr class="hover:bg-gray-50 transition-colors duration-150">
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                <div class="flex flex-col">
+                                    <span class="font-semibold uppercase text-xs tracking-wider text-gray-400">Candidat</span>
+                                    <span>{{ candidat.nom }} {{ candidat.prenom }}</span>
+                                </div>
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <a href="mailto:{{ candidat.mail }}" class="text-indigo-600 hover:text-indigo-900 hover:underline">
+                                    {{ candidat.mail }}
+                                </a>
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ candidat.adresse }}</div>
+                                <div class="text-xs text-gray-400">{{ candidat.pays }}</div>
+                            </td>
+                            
+                            <td class="px-6 py-4 text-xs text-gray-600 whitespace-nowrap">
+                                <div>Né(e) le {{ candidat.naissance|date('d/m/Y') }}</div>
+                                <div class="text-gray-400">à {{ candidat.lieuNaissance }} ({{ candidat.nationalite }})</div>
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                    {{ candidat.jobCategorie }}
+                                </span>
+                                <div class="mt-1 text-xs text-gray-400">{{ candidat.experience }} d'exp.</div>
+                            </td>
+                            
+                            <td class="px-6 py-4 min-w-[250px] max-w-sm">
+                                <p class="text-xs text-gray-600 line-clamp-2 hover:line-clamp-none transition-all cursor-pointer" title="{{ candidat.description }}">
+                                    {{ candidat.description }}
+                                </p>
+                            </td>
+                            
+                            <td class="px-6 py-4 text-center whitespace-nowrap">
+                                <span class="inline-flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                                    {{ candidat.genre }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div> 
+                     
+
+
+
+
+
+{{ include ('_partials/_footer.html.twig') }}
 
 {% endblock %}

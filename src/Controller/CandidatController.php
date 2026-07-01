@@ -24,8 +24,9 @@ final class CandidatController extends AbstractController
         ]);
     }
 
+   
+    #[Route('/new', name: 'app_candidat_new', methods: ['GET', 'POST'])] 
     #[IsGranted('ROLE_USER')]
-    #[Route('/new', name: 'app_candidat_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $candidat = new Candidat();   
@@ -42,7 +43,8 @@ final class CandidatController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_job_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('app_job_index', [], Response::HTTP_SEE_OTHER);
             // return $this->redirectToRoute('app_candidat_index', [], Response::HTTP_SEE_OTHER);
         }
 

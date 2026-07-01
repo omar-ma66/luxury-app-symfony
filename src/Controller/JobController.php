@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class JobController extends AbstractController
 {
     #[Route(name: 'app_job_index', methods: ['GET'])]
-    #[IsGranted('ROLE_CANDIDAT')]
+   # #[IsGranted('ROLE_CANDIDAT')]
     #[IsGranted(new Expression("is_granted('ROLE_CANDIDAT') or is_granted('ROLE_RH')" ))]
 
     public function index(JobRepository $jobRepository): Response
