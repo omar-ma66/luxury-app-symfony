@@ -6,6 +6,8 @@ use App\Entity\Job;
 use App\Form\JobType;
 use App\Repository\JobRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
+// use PhpParser\Node\Stmt\Expression;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,8 @@ final class JobController extends AbstractController
 {
     #[Route(name: 'app_job_index', methods: ['GET'])]
     #[IsGranted('ROLE_CANDIDAT')]
+    #[IsGranted(new Expression("is_granted('ROLE_CANDIDAT') or is_granted('ROLE_RH')" ))]
+
     public function index(JobRepository $jobRepository): Response
     {
         return $this->render('job/index.html.twig', [
